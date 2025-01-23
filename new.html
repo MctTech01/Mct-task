@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroTech Computer - Task Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+        #task-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #task-list li {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        #task-list li.done {
+            background-color: #d4edda;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .remark-section {
+            margin-top: 10px;
+        }
+        input[type="text"], select, .remark-input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+        .add-task-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .task-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .done-btn {
+            background-color: #28a745;
+        }
+        .done-btn:hover {
+            background-color: #218838;
+        }
+        .remove-btn {
+            background-color: #dc3545;
+        }
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+        .task-details {
+            margin-top: 10px;
+        }
+        .task-details div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>MicroTech Computer - Task Management</h1>
+        
+        <div class="add-task-container">
+            <input type="text" id="taskInput" placeholder="Enter new task">
+            <input type="text" id="requestUser" placeholder="Enter Request User">
+            <select id="technicianSelect">
+                <option value="">Select Technician</option>
+                <option value="John Doe">John Doe</option>
+                <option value="Jane Smith">Jane Smith</option>
+                <option value="Alex Johnson">Alex Johnson</option>
+                <!-- Add more technicians as needed -->
+            </select>
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        
+        <ul id="task-list">
+            <!-- Tasks will appear here -->
+        </ul>
+    </div>
+
+    <script>
+        // Function to add a task
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const requestUser = document.getElementById('requestUser').value.trim();
+            const technicianSelect = document.getElementById('technicianSelect');
+            const technician = technicianSelect.value;
+            const taskText = taskInput.value.trim();
+
+            if (taskText === "" || requestUser === "" || technician === "") {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            const taskList = document.getElementById('task-list');
+            const taskItem = document.createElement('li');
+            
+            // Get current date
+            const currentDate = new Date();
+            const dateAdded = currentDate.toLocaleDateString();
+
+            taskItem.innerHTML = `
+                <div class="task-details">
+                    <div><strong>Task:</strong> ${taskText}</div>
+                    <div><strong>Requested By:</strong> ${requestUser}</div>
+                    <div><strong>Technician:</strong> ${technician}</div>
+                    <div><strong>Date Added:</strong> ${dateAdded}</div>
+                </div>
+                <div class="task-buttons">
+                    <button class="done-btn" onclick="markAsDone(this)">Done</button>
+                    <button class="remove-btn" onclick="removeTask(this)">Remove</button>
+                </div>
+                <div class="remark-section">
+                    <textarea class="remark-input" placeholder="Add remarks for the task..."></textarea>
+                </div>
+            `;
+            
+            taskList.appendChild(taskItem);
+            taskInput.value = ""; // Clear the task input field
+            document.getElementById('requestUser').value = ""; // Clear the request user field
+            document.getElementById('technicianSelect').value = ""; // Reset technician selection
+        }
+
+        // Function to remove a task
+        function removeTask(button) {
+            const taskItem = button.parentElement.parentElement;
+            taskItem.remove();
+        }
+
+        // Function to mark a task as done
+        function markAsDone(button) {
+            const taskItem = button.parentElement.parentElement;
+            taskItem.classList.toggle('done');
+            const doneButton = button;
+            doneButton.innerText = taskItem.classList.contains('done') ? 'Undo' : 'Done';
+            doneButton.classList.toggle('done-btn', taskItem.classList.contains('done'));
+            doneButton.classList.toggle('remove-btn', !taskItem.classList.contains('done'));
+        }
+    </script>
+
+</body>
+</html>
