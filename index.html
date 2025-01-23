@@ -6,118 +6,209 @@
     <title>MicroTech Computer - Task Management</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
+            background-image: url('https://www.w3schools.com/w3images/computer.jpg'); /* Computer Background Image */
+            background-size: cover;
+            background-position: center;
+            color: #333;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #0056b3;
+            color: white;
+            background-color: #28a745; /* Green background for the title */
+            padding: 10px;
+            border-radius: 5px;
         }
-        #task-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        #task-list li {
+        .tabs {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tabs button {
             background-color: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            transition: background-color 0.3s;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            color: #333;
+            margin: 0 10px;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s ease;
         }
-        #task-list li.done {
-            background-color: #d4edda;
-        }
-        button {
+        .tabs button:hover {
             background-color: #007bff;
             color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-left: 10px;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .remark-section {
-            margin-top: 10px;
-        }
-        input[type="text"], select, .remark-input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-top: 5px;
+        .tabs button.active {
+            background-color: #007bff;
+            color: white;
         }
         .add-task-container {
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
         }
+        .add-task-container input,
+        .add-task-container select,
+        .add-task-container button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .task-item {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .task-item.done {
+            background-color: #d4edda;
+        }
+        .task-item:hover {
+            transform: translateY(-5px);
+        }
         .task-buttons {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .task-buttons button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 50px; /* Modern round shape */
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
         .done-btn {
             background-color: #28a745;
+            color: white;
         }
         .done-btn:hover {
             background-color: #218838;
+            transform: scale(1.1);
         }
         .remove-btn {
             background-color: #dc3545;
+            color: white;
         }
         .remove-btn:hover {
             background-color: #c82333;
+            transform: scale(1.1);
         }
-        .task-details {
+        .remark-section,
+        .procurement-container {
             margin-top: 10px;
         }
-        .task-details div {
-            margin-bottom: 5px;
+        .remark-input,
+        .procurement-input,
+        .procurement-textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        /* Technician colors */
+        .sooraj {
+            color: #ff6347; /* Tomato */
+        }
+        .ashraf {
+            color: #4682b4; /* Steel Blue */
+        }
+        .akhilesh {
+            color: #32cd32; /* Lime Green */
+        }
+        .preety {
+            color: #ff1493; /* Deep Pink */
+        }
+        /* Modern Search Bar */
+        #searchWrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        #searchWrapper input, 
+        #searchWrapper select {
+            padding: 10px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+        }
+        #searchWrapper button {
+            padding: 10px;
+            border-radius: 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #searchWrapper button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
+    <!-- Tabs for Uncompleted and Completed tasks -->
+    <div class="tabs">
+        <button id="uncompletedTab" class="active" onclick="showTab('uncompleted')">Uncompleted Tasks</button>
+        <button id="completedTab" onclick="showTab('completed')">Completed Tasks</button>
+    </div>
+
     <div class="container">
         <h1>MicroTech Computer - Task Management</h1>
-        
-        <div class="add-task-container">
+
+        <!-- Modern Search and Filter Section -->
+        <div id="searchWrapper">
+            <input type="text" id="searchInput" placeholder="Search by Task Name or Ticket Number" onkeyup="searchTasks()">
+            <button onclick="searchTasks()">Search</button>
+        </div>
+
+        <!-- Add new task -->
+        <div class="add-task-container" id="addTaskContainer">
             <input type="text" id="taskInput" placeholder="Enter new task">
-            <input type="text" id="requestUser" placeholder="Enter Request User">
+            <input type="text" id="requestUser" placeholder="Enter Request User (or select)">
             <select id="technicianSelect">
                 <option value="">Select Technician</option>
-                <option value="Ashraf">Ashraf</option>
-                <option value="Akhilesh">Akhilesh</option>
-                <option value="Sooraj">Sooraj</option>
-                <option value="Preety">Preety</option>
-                <!-- Add more technicians as needed -->
+                <option value="Sooraj" class="sooraj">Sooraj</option>
+                <option value="Ashraf" class="ashraf">Ashraf</option>
+                <option value="Akhilesh" class="akhilesh">Akhilesh</option>
+                <option value="Preety" class="preety">Preety</option>
             </select>
             <button onclick="addTask()">Add Task</button>
         </div>
-        
-        <ul id="task-list">
-            <!-- Tasks will appear here -->
-        </ul>
+
+        <!-- Task list section -->
+        <div id="uncompletedTasks" class="task-list"></div>
+        <div id="completedTasks" class="task-list" style="display: none;"></div>
     </div>
 
     <script>
-        // Function to add a task
+        let tasks = [];
+        let taskCounter = 1;  // Task numbering system
+
+        // Add task function
         function addTask() {
             const taskInput = document.getElementById('taskInput');
             const requestUser = document.getElementById('requestUser').value.trim();
@@ -130,51 +221,152 @@
                 return;
             }
 
-            const taskList = document.getElementById('task-list');
-            const taskItem = document.createElement('li');
-            
             // Get current date
             const currentDate = new Date();
             const dateAdded = currentDate.toLocaleDateString();
 
-            taskItem.innerHTML = `
-                <div class="task-details">
-                    <div><strong>Task:</strong> ${taskText}</div>
-                    <div><strong>Requested By:</strong> ${requestUser}</div>
-                    <div><strong>Technician:</strong> ${technician}</div>
-                    <div><strong>Date Added:</strong> ${dateAdded}</div>
-                </div>
-                <div class="task-buttons">
-                    <button class="done-btn" onclick="markAsDone(this)">Done</button>
-                    <button class="remove-btn" onclick="removeTask(this)">Remove</button>
-                </div>
-                <div class="remark-section">
-                    <textarea class="remark-input" placeholder="Add remarks for the task..."></textarea>
-                </div>
-            `;
-            
-            taskList.appendChild(taskItem);
-            taskInput.value = ""; // Clear the task input field
-            document.getElementById('requestUser').value = ""; // Clear the request user field
-            document.getElementById('technicianSelect').value = ""; // Reset technician selection
+            const task = {
+                taskNumber: taskCounter++,
+                taskText,
+                requestUser,
+                technician,
+                dateAdded,
+                completed: false,
+                remarks: '', // Initialize remarks field
+                procurement: '', // Initialize procurement field
+                procurementDetails: '', // Initialize procurement details field
+                closingDate: '' // Initialize closing date
+            };
+
+            tasks.push(task);
+            renderTasks();
+            taskInput.value = ""; // Clear input fields
+            document.getElementById('requestUser').value = "";
+            document.getElementById('technicianSelect').value = "";
         }
 
-        // Function to remove a task
-        function removeTask(button) {
-            const taskItem = button.parentElement.parentElement;
-            taskItem.remove();
+        // Add remarks to task
+        function addRemarks(index) {
+            const remarks = document.getElementById('remarksInput' + index).value.trim();
+            if (remarks === "") {
+                alert("Please add remarks before marking as done.");
+                return;
+            }
+            tasks[index].remarks = remarks;
+            renderTasks();
         }
 
-        // Function to mark a task as done
-        function markAsDone(button) {
-            const taskItem = button.parentElement.parentElement;
-            taskItem.classList.toggle('done');
-            const doneButton = button;
-            doneButton.innerText = taskItem.classList.contains('done') ? 'Undo' : 'Done';
-            doneButton.classList.toggle('done-btn', taskItem.classList.contains('done'));
-            doneButton.classList.toggle('remove-btn', !taskItem.classList.contains('done'));
+        // Add procurement details to task
+        function addProcurement(index) {
+            const procurementItem = document.getElementById('procurementItem' + index).value.trim();
+            const procurementDetails = document.getElementById('procurementDetails' + index).value.trim();
+
+            if (procurementItem === "" || procurementDetails === "") {
+                alert("Please fill in procurement details before marking as done.");
+                return;
+            }
+            tasks[index].procurement = procurementItem;
+            tasks[index].procurementDetails = procurementDetails;
+            renderTasks();
         }
+
+        // Toggle task completion status
+        function toggleTaskStatus(index) {
+            tasks[index].completed = !tasks[index].completed;
+            if (tasks[index].completed) {
+                const currentDate = new Date();
+                tasks[index].closingDate = currentDate.toLocaleDateString();
+            } else {
+                tasks[index].closingDate = '';
+            }
+            renderTasks();
+        }
+
+        // Remove task
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        // Show or hide tab sections
+        function showTab(tab) {
+            if (tab === 'uncompleted') {
+                document.getElementById('uncompletedTab').classList.add('active');
+                document.getElementById('completedTab').classList.remove('active');
+                document.getElementById('uncompletedTasks').style.display = 'block';
+                document.getElementById('completedTasks').style.display = 'none';
+            } else {
+                document.getElementById('uncompletedTab').classList.remove('active');
+                document.getElementById('completedTab').classList.add('active');
+                document.getElementById('uncompletedTasks').style.display = 'none';
+                document.getElementById('completedTasks').style.display = 'block';
+            }
+        }
+
+        // Search function
+        function searchTasks() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            renderTasks(searchInput);
+        }
+
+        // Render tasks based on search filter
+        function renderTasks(searchQuery = '') {
+            const uncompletedList = document.getElementById('uncompletedTasks');
+            const completedList = document.getElementById('completedTasks');
+
+            uncompletedList.innerHTML = '';
+            completedList.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                if (searchQuery && (task.taskText.toLowerCase().indexOf(searchQuery) === -1 && task.taskNumber.toString().indexOf(searchQuery) === -1)) {
+                    return;
+                }
+
+                const taskItem = document.createElement('div');
+                taskItem.classList.add('task-item');
+                if (task.completed) taskItem.classList.add('done');
+
+                // Assign technician color class
+                let technicianClass = task.technician.toLowerCase();
+
+                taskItem.innerHTML = `
+                    <div><strong>Ticket #:</strong> ${task.taskNumber}</div>
+                    <div><strong>Task:</strong> <span class="${technicianClass}">${task.taskText}</span></div>
+                    <div><strong>Requested By:</strong> ${task.requestUser}</div>
+                    <div><strong>Technician:</strong> <span class="${technicianClass}">${task.technician}</span></div>
+                    <div><strong>Date Added:</strong> ${task.dateAdded}</div>
+                    ${task.completed ? `<div><strong>Closing Date:</strong> ${task.closingDate}</div>` : ''}
+                    <div class="task-buttons">
+                        <button class="done-btn" onclick="toggleTaskStatus(${index})">${task.completed ? 'Undo' : 'Done'}</button>
+                        <button class="remove-btn" onclick="removeTask(${index})">Remove</button>
+                    </div>
+                    
+                    <!-- Remarks Section -->
+                    <div class="remark-section">
+                        <textarea class="remark-input" id="remarksInput${index}" placeholder="Add remarks for the task..." ${task.completed ? 'disabled' : ''}>${task.remarks}</textarea>
+                        ${task.completed || task.remarks ? '' : `<button class="done-btn" onclick="addRemarks(${index})">Done</button>`}
+                    </div>
+
+                    <!-- Procurement Box -->
+                    <div class="procurement-container">
+                        <input type="text" id="procurementItem${index}" class="procurement-input" placeholder="Procurement Item/Expense" value="${task.procurement}" ${task.completed ? 'disabled' : ''}>
+                        <textarea id="procurementDetails${index}" class="procurement-textarea" placeholder="Add procurement details here..." ${task.completed ? 'disabled' : ''}>${task.procurementDetails}</textarea>
+                        ${task.completed || (task.procurement && task.procurementDetails) ? '' : `<button class="done-btn" onclick="addProcurement(${index})">Done</button>`}
+                    </div>
+                `;
+
+                if (task.completed) {
+                    completedList.appendChild(taskItem);
+                } else {
+                    uncompletedList.appendChild(taskItem);
+                }
+            });
+        }
+
+        // Initialize the page with uncompleted tasks tab active
+        showTab('uncompleted');
     </script>
 
 </body>
 </html>
+
