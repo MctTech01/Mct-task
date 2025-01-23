@@ -3,370 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MicroTech Computer - Task Management</title>
+    <title>MicroTech Computers LTD - Task Management</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
             margin: 0;
-            padding: 20px;
-            background-image: url('https://www.w3schools.com/w3images/computer.jpg'); /* Computer Background Image */
-            background-size: cover;
-            background-position: center;
+            padding: 0;
             color: #333;
         }
+        
+        /* Container styles */
         .container {
-            max-width: 900px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
+
+        /* Header and Title */
         h1 {
             text-align: center;
-            color: white;
-            background-color: #28a745; /* Green background for the title */
-            padding: 10px;
-            border-radius: 5px;
+            color: #2d3e50;
+            font-size: 36px;
+            margin-bottom: 30px;
         }
+
+        /* Tabs for Uncompleted and Completed tasks */
         .tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid #ddd;
         }
+
         .tabs button {
-            background-color: #f9f9f9;
-            padding: 10px 20px;
-            cursor: pointer;
+            background-color: #2d3e50;
+            color: #fff;
+            padding: 15px 25px;
             border: none;
-            font-size: 16px;
-            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
             margin: 0 10px;
-            border-radius: 5px 5px 0 0;
             transition: background-color 0.3s ease;
         }
+
         .tabs button:hover {
-            background-color: #007bff;
-            color: white;
+            background-color: #17a2b8;
         }
-        .tabs button.active {
-            background-color: #007bff;
-            color: white;
+
+        .tabs .active {
+            background-color: #28a745;
         }
-        .add-task-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-        .add-task-container input,
-        .add-task-container select,
-        .add-task-container button {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+
+        /* Task container */
         .task-list {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
         }
+
         .task-item {
-            background-color: #ffffff;
+            background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            transition: box-shadow 0.3s ease;
         }
-        .task-item.done {
-            background-color: #d4edda;
-        }
+
         .task-item:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
         }
-        .task-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .task-buttons button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 50px; /* Modern round shape */
-            cursor: pointer;
-            font-size: 14px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-        .done-btn {
-            background-color: #28a745;
-            color: white;
-        }
-        .done-btn:hover {
-            background-color: #218838;
-            transform: scale(1.1);
-        }
-        .remove-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        .remove-btn:hover {
-            background-color: #c82333;
-            transform: scale(1.1);
-        }
-        .remark-section,
-        .procurement-container {
-            margin-top: 10px;
-        }
-        .remark-input,
-        .procurement-input,
-        .procurement-textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        /* Technician colors */
-        .sooraj {
-            color: #ff6347; /* Tomato */
-        }
-        .ashraf {
-            color: #4682b4; /* Steel Blue */
-        }
-        .akhilesh {
-            color: #32cd32; /* Lime Green */
-        }
-        .preety {
-            color: #ff1493; /* Deep Pink */
-        }
-        /* Modern Search Bar */
-        #searchWrapper {
-            display: flex;
-            justify-content: flex-end;
+
+        .task-item h4 {
+            font-size: 22px;
             margin-bottom: 15px;
+            color: #17a2b8;
         }
-        #searchWrapper input, 
-        #searchWrapper select {
-            padding: 10px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            margin-left: 10px;
+
+        .task-item p {
+            margin-bottom: 10px;
+            font-size: 16px;
         }
-        #searchWrapper button {
-            padding: 10px;
-            border-radius: 25px;
+
+        .task-item span {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .task-item button {
             background-color: #007bff;
-            color: white;
+            color: #fff;
+            padding: 8px 15px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
             transition: background-color 0.3s ease;
         }
-        #searchWrapper button:hover {
+
+        .task-item button:hover {
             background-color: #0056b3;
         }
+
+        .task-item button.done-btn {
+            background-color: #28a745;
+        }
+
+        .task-item button.done-btn:hover {
+            background-color: #218838;
+        }
+
+        .remark-input, .procurement-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        /* Task form and inputs */
+        .add-task-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .add-task-container h3 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+
+        .add-task-container input, .add-task-container textarea, .add-task-container select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .add-task-container button {
+            background-color: #17a2b8;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-task-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Login Form */
+        .login-container {
+            text-align: center;
+            padding: 50px;
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .login-container input {
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 80%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .login-container button {
+            padding: 12px 20px;
+            background-color: #28a745;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        .login-container button:hover {
+            background-color: #218838;
+        }
+
+        /* Modern Search Bar */
+        #searchWrapper {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            padding: 10px;
+            border-radius: 5px;
+            width: 300px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Tabs for Uncompleted and Completed tasks -->
-    <div class="tabs">
-        <button id="uncompletedTab" class="active" onclick="showTab('uncompleted')">Uncompleted Tasks</button>
-        <button id="completedTab" onclick="showTab('completed')">Completed Tasks</button>
+    <!-- Login Page -->
+    <div class="login-container" id="loginContainer">
+        <h2>Sign In to MicroTech Computers LTD</h2>
+        <input type="text" id="usernameInput" placeholder="Enter your username">
+        <input type="password" id="passwordInput" placeholder="Enter your password">
+        <button onclick="signIn()">Sign In</button>
     </div>
 
-    <div class="container">
-        <h1>MicroTech Computer - Task Management</h1>
+    <!-- Task Manager Page -->
+    <div class="container" id="taskManagerContainer" style="display: none;">
+        <h1>MicroTech Computers LTD - Task Management</h1>
 
-        <!-- Modern Search and Filter Section -->
+        <!-- Tabs for Uncompleted and Completed tasks -->
+        <div class="tabs">
+            <button id="uncompletedTab" class="active" onclick="showTab('uncompleted')">Uncompleted Tasks</button>
+            <button id="completedTab" onclick="showTab('completed')">Completed Tasks</button>
+        </div>
+
+        <!-- Search Bar -->
         <div id="searchWrapper">
             <input type="text" id="searchInput" placeholder="Search by Task Name or Ticket Number" onkeyup="searchTasks()">
-            <button onclick="searchTasks()">Search</button>
         </div>
 
-        <!-- Add new task -->
+        <!-- Task Form -->
         <div class="add-task-container" id="addTaskContainer">
+            <h3>Create a New Ticket</h3>
             <input type="text" id="taskInput" placeholder="Enter new task">
-            <input type="text" id="requestUser" placeholder="Enter Request User (or select)">
-            <select id="technicianSelect">
+            <textarea id="problemDescription" placeholder="Describe the problem"></textarea>
+
+            <!-- Only show requestUser and technician if admin -->
+            <input type="text" id="requestUser" placeholder="Enter Request User (e.g., PND, ABC)" list="requestUsersList" style="display: none;">
+            <datalist id="requestUsersList">
+                <option value="PND">
+                <option value="ABC">
+                <option value="HHT">
+                <option value="Ideco">
+                <option value="Magnum">
+                <option value="DS Battery">
+                <option value="Toorbally Pharmacy">
+                <option value="Planet Pharmacy">
+                <option value="Hyperpharm">
+            </datalist>
+
+            <select id="technicianSelect" style="display: none;">
                 <option value="">Select Technician</option>
-                <option value="Sooraj" class="sooraj">Sooraj</option>
-                <option value="Ashraf" class="ashraf">Ashraf</option>
-                <option value="Akhilesh" class="akhilesh">Akhilesh</option>
-                <option value="Preety" class="preety">Preety</option>
+                <option value="Sooraj">Sooraj</option>
+                <option value="Ashraf">Ashraf</option>
+                <option value="Akhilesh">Akhilesh</option>
+                <option value="Preety">Preety</option>
             </select>
-            <button onclick="addTask()">Add Task</button>
+
+            <button onclick="addTask()">Create Ticket</button>
         </div>
 
-        <!-- Task list section -->
+        <!-- Task List -->
         <div id="uncompletedTasks" class="task-list"></div>
         <div id="completedTasks" class="task-list" style="display: none;"></div>
     </div>
 
     <script>
         let tasks = [];
-        let taskCounter = 1;  // Task numbering system
+        let taskCounter = 1;
+        let currentUser = '';
+        let isAdmin = false;
 
-        // Add task function
-        function addTask() {
-            const taskInput = document.getElementById('taskInput');
-            const requestUser = document.getElementById('requestUser').value.trim();
-            const technicianSelect = document.getElementById('technicianSelect');
-            const technician = technicianSelect.value;
-            const taskText = taskInput.value.trim();
+        // Admin credentials
+        const adminCredentials = {
+            "Ashraf": "15",
+            "Sooraj": "77",
+            "Preety": "99",
+            "Akhilesh": "666"
+        };
 
-            if (taskText === "" || requestUser === "" || technician === "") {
-                alert("Please fill all fields!");
+        // Sign-in function
+        function signIn() {
+            const usernameInput = document.getElementById('usernameInput').value.trim();
+            const passwordInput = document.getElementById('passwordInput').value.trim();
+
+            if (usernameInput === "") {
+                alert("Please enter your username!");
                 return;
             }
 
-            // Get current date
-            const currentDate = new Date();
-            const dateAdded = currentDate.toLocaleDateString();
+            if (adminCredentials[usernameInput] === passwordInput) {
+                currentUser = usernameInput;
+                isAdmin = true;
+            } else if (passwordInput === "") {
+                currentUser = usernameInput;
+                isAdmin = false;
+            } else {
+                alert("Invalid credentials. Please try again.");
+                return;
+            }
+
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('taskManagerContainer').style.display = 'block';
+
+            // If admin, show technician select and request user input
+            if (isAdmin) {
+                document.getElementById('technicianSelect').style.display = 'block';
+                document.getElementById('requestUser').style.display = 'block';
+            }
+        }
+
+        // Add task function (admins can assign technicians)
+        function addTask() {
+            const taskText = document.getElementById('taskInput').value.trim();
+            const problemDescription = document.getElementById('problemDescription').value.trim();
+            const requestUser = document.getElementById('requestUser').value.trim();
+            const technician = document.getElementById('technicianSelect').value;
+
+            if (!taskText || !problemDescription) {
+                alert("Please fill out all fields!");
+                return;
+            }
+
+            if (isAdmin && (!requestUser || !technician)) {
+                alert("Please select a Request User and Technician!");
+                return;
+            }
 
             const task = {
                 taskNumber: taskCounter++,
-                taskText,
-                requestUser,
-                technician,
-                dateAdded,
+                taskText: taskText,
+                problemDescription: problemDescription,
+                requestUser: isAdmin ? requestUser : 'Not Provided',
+                technician: isAdmin ? technician : 'Not Assigned',
+                dateAdded: new Date().toLocaleDateString(),
                 completed: false,
-                remarks: '', // Initialize remarks field
-                procurement: '', // Initialize procurement field
-                procurementDetails: '', // Initialize procurement details field
-                closingDate: '' // Initialize closing date
+                remarks: "",
+                procurement: ""
             };
 
             tasks.push(task);
             renderTasks();
-            taskInput.value = ""; // Clear input fields
-            document.getElementById('requestUser').value = "";
-            document.getElementById('technicianSelect').value = "";
+            resetForm();
         }
 
-        // Add remarks to task
-        function addRemarks(index) {
-            const remarks = document.getElementById('remarksInput' + index).value.trim();
-            if (remarks === "") {
-                alert("Please add remarks before marking as done.");
-                return;
-            }
-            tasks[index].remarks = remarks;
-            renderTasks();
-        }
-
-        // Add procurement details to task
-        function addProcurement(index) {
-            const procurementItem = document.getElementById('procurementItem' + index).value.trim();
-            const procurementDetails = document.getElementById('procurementDetails' + index).value.trim();
-
-            if (procurementItem === "" || procurementDetails === "") {
-                alert("Please fill in procurement details before marking as done.");
-                return;
-            }
-            tasks[index].procurement = procurementItem;
-            tasks[index].procurementDetails = procurementDetails;
-            renderTasks();
-        }
-
-        // Toggle task completion status
-        function toggleTaskStatus(index) {
-            tasks[index].completed = !tasks[index].completed;
-            if (tasks[index].completed) {
-                const currentDate = new Date();
-                tasks[index].closingDate = currentDate.toLocaleDateString();
-            } else {
-                tasks[index].closingDate = '';
-            }
-            renderTasks();
-        }
-
-        // Remove task
-        function removeTask(index) {
-            tasks.splice(index, 1);
-            renderTasks();
-        }
-
-        // Show or hide tab sections
-        function showTab(tab) {
-            if (tab === 'uncompleted') {
-                document.getElementById('uncompletedTab').classList.add('active');
-                document.getElementById('completedTab').classList.remove('active');
-                document.getElementById('uncompletedTasks').style.display = 'block';
-                document.getElementById('completedTasks').style.display = 'none';
-            } else {
-                document.getElementById('uncompletedTab').classList.remove('active');
-                document.getElementById('completedTab').classList.add('active');
-                document.getElementById('uncompletedTasks').style.display = 'none';
-                document.getElementById('completedTasks').style.display = 'block';
+        function resetForm() {
+            document.getElementById('taskInput').value = '';
+            document.getElementById('problemDescription').value = '';
+            if (isAdmin) {
+                document.getElementById('requestUser').value = '';
+                document.getElementById('technicianSelect').value = '';
             }
         }
 
-        // Search function
-        function searchTasks() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            renderTasks(searchInput);
-        }
-
-        // Render tasks based on search filter
-        function renderTasks(searchQuery = '') {
+        function renderTasks() {
             const uncompletedList = document.getElementById('uncompletedTasks');
             const completedList = document.getElementById('completedTasks');
-
             uncompletedList.innerHTML = '';
             completedList.innerHTML = '';
 
-            tasks.forEach((task, index) => {
-                if (searchQuery && (task.taskText.toLowerCase().indexOf(searchQuery) === -1 && task.taskNumber.toString().indexOf(searchQuery) === -1)) {
-                    return;
-                }
-
-                const taskItem = document.createElement('div');
-                taskItem.classList.add('task-item');
-                if (task.completed) taskItem.classList.add('done');
-
-                // Assign technician color class
-                let technicianClass = task.technician.toLowerCase();
-
-                taskItem.innerHTML = `
-                    <div><strong>Ticket #:</strong> ${task.taskNumber}</div>
-                    <div><strong>Task:</strong> <span class="${technicianClass}">${task.taskText}</span></div>
-                    <div><strong>Requested By:</strong> ${task.requestUser}</div>
-                    <div><strong>Technician:</strong> <span class="${technicianClass}">${task.technician}</span></div>
-                    <div><strong>Date Added:</strong> ${task.dateAdded}</div>
-                    ${task.completed ? `<div><strong>Closing Date:</strong> ${task.closingDate}</div>` : ''}
-                    <div class="task-buttons">
-                        <button class="done-btn" onclick="toggleTaskStatus(${index})">${task.completed ? 'Undo' : 'Done'}</button>
-                        <button class="remove-btn" onclick="removeTask(${index})">Remove</button>
+            tasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.classList.add('task-item');
+                taskElement.innerHTML = `
+                    <h4>Ticket #${task.taskNumber}</h4>
+                    <p><strong>Problem:</strong> ${task.problemDescription}</p>
+                    <p><strong>Request User:</strong> ${task.requestUser}</p>
+                    <p><strong>Technician:</strong> ${task.technician}</p>
+                    <p><strong>Date Added:</strong> ${task.dateAdded}</p>
+                    <div class="remark-section" style="display: ${isAdmin ? 'block' : 'none'}">
+                        <textarea class="remark-input" placeholder="Enter remarks for this task">${task.remarks}</textarea>
+                        <button class="done-btn" onclick="saveRemarks(${task.taskNumber})">Save</button>
                     </div>
-                    
-                    <!-- Remarks Section -->
-                    <div class="remark-section">
-                        <textarea class="remark-input" id="remarksInput${index}" placeholder="Add remarks for the task..." ${task.completed ? 'disabled' : ''}>${task.remarks}</textarea>
-                        ${task.completed || task.remarks ? '' : `<button class="done-btn" onclick="addRemarks(${index})">Done</button>`}
+                    <div class="procurement-container" style="display: ${isAdmin ? 'block' : 'none'}">
+                        <textarea class="procurement-input" placeholder="Enter procurement details for this task">${task.procurement}</textarea>
+                        <button class="done-btn" onclick="saveProcurement(${task.taskNumber})">Save</button>
                     </div>
-
-                    <!-- Procurement Box -->
-                    <div class="procurement-container">
-                        <input type="text" id="procurementItem${index}" class="procurement-input" placeholder="Procurement Item/Expense" value="${task.procurement}" ${task.completed ? 'disabled' : ''}>
-                        <textarea id="procurementDetails${index}" class="procurement-textarea" placeholder="Add procurement details here..." ${task.completed ? 'disabled' : ''}>${task.procurementDetails}</textarea>
-                        ${task.completed || (task.procurement && task.procurementDetails) ? '' : `<button class="done-btn" onclick="addProcurement(${index})">Done</button>`}
-                    </div>
+                    ${task.completed ? '<span>Completed</span>' : `<button class="done-btn" onclick="markAsDone(${task.taskNumber})">Done</button>`}
                 `;
 
                 if (task.completed) {
-                    completedList.appendChild(taskItem);
+                    completedList.appendChild(taskElement);
                 } else {
-                    uncompletedList.appendChild(taskItem);
+                    uncompletedList.appendChild(taskElement);
                 }
             });
         }
 
-        // Initialize the page with uncompleted tasks tab active
-        showTab('uncompleted');
-    </script>
+        // Mark a task as done
+        function markAsDone(taskNumber) {
+            const task = tasks.find(t => t.taskNumber === taskNumber);
+            task.completed = true;
+            task.dateClosed = new Date().toLocaleDateString();
+            renderTasks();
+        }
 
+        // Save remarks for a task
+        function saveRemarks(taskNumber) {
+            const task = tasks.find(t => t.taskNumber === taskNumber);
+            const remarkInput = document.querySelector(`#task-${taskNumber} .remark-input`);
+            task.remarks = remarkInput.value;
+        }
+
+        // Save procurement details for a task
+        function saveProcurement(taskNumber) {
+            const task = tasks.find(t => t.taskNumber === taskNumber);
+            const procurementInput = document.querySelector(`#task-${taskNumber} .procurement-input`);
+            task.procurement = procurementInput.value;
+        }
+
+        // Show or hide the appropriate tab
+        function showTab(tab) {
+            if (tab === 'uncompleted') {
+                document.getElementById('uncompletedTasks').style.display = 'block';
+                document.getElementById('completedTasks').style.display = 'none';
+                document.getElementById('uncompletedTab').classList.add('active');
+                document.getElementById('completedTab').classList.remove('active');
+            } else {
+                document.getElementById('uncompletedTasks').style.display = 'none';
+                document.getElementById('completedTasks').style.display = 'block';
+                document.getElementById('completedTab').classList.add('active');
+                document.getElementById('uncompletedTab').classList.remove('active');
+            }
+        }
+
+        function searchTasks() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredTasks = tasks.filter(task =>
+                task.taskNumber.toString().includes(query) || task.taskText.toLowerCase().includes(query)
+            );
+            renderFilteredTasks(filteredTasks);
+        }
+
+        function renderFilteredTasks(filteredTasks) {
+            const uncompletedList = document.getElementById('uncompletedTasks');
+            uncompletedList.innerHTML = '';
+
+            filteredTasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.classList.add('task-item');
+                taskElement.innerHTML = `
+                    <h4>Ticket #${task.taskNumber}</h4>
+                    <p><strong>Problem:</strong> ${task.problemDescription}</p>
+                    <p><strong>Request User:</strong> ${task.requestUser}</p>
+                    <p><strong>Technician:</strong> ${task.technician}</p>
+                    <p><strong>Date Added:</strong> ${task.dateAdded}</p>
+                    <p><strong>Remarks:</strong> ${task.remarks}</p>
+                    <p><strong>Procurement:</strong> ${task.procurement}</p>
+                    ${task.completed ? '<span>Completed</span>' : `<button class="done-btn" onclick="markAsDone(${task.taskNumber})">Done</button>`}
+                `;
+                uncompletedList.appendChild(taskElement);
+            });
+        }
+
+    </script>
 </body>
 </html>
-
